@@ -1,0 +1,12 @@
+.kudoBoardCard {
+    width: 400px;
+}
+
+.kudoCardImg{
+    width: 100%;
+}
+
+.kudoCardButtons{
+    display: flex;
+
+}

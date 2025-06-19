@@ -1,0 +1,17 @@
+.kudosThemes{
+  margin: 8px;
+  text-align: center;
+}
+
+.kudosBoard{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+}
+
+.addNewKudoCardButton{
+  text-align: center;
+  margin: 8px 0;
+  
+}
