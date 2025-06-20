@@ -243,8 +243,7 @@ export default function KudoBoard() {
           [cardId]: comments,
         }));
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleToggleComments = async (cardId) => {
@@ -478,7 +477,6 @@ export default function KudoBoard() {
                         <div key={commentIndex} className="commentItem">
                           <div className="commentHeader">
                             <strong>{comment.author || "Anonymous"}</strong>
-
                           </div>
                           <p className="commentMessage">{comment.message}</p>
                         </div>

@@ -1,17 +1,30 @@
-.kudosThemes{
+.kudosThemes {
   margin: 8px;
   text-align: center;
 }
 
-.kudosBoard{
+.kudosBoard {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-
 }
 
-.addNewKudoCardButton{
+.addNewKudoCardButton {
   text-align: center;
   margin: 8px 0;
-  
+}
+
+.body-dark {
+  background: #222;
+  color: #f5f5f5;
+}
+
+.body-light {
+  background: #f5f5f5;
+  color: #222;
+}
+
+.modeButton{
+  text-align: center;
+  margin: 10px auto;
 }
