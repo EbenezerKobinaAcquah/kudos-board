@@ -83,7 +83,7 @@
 }
 
 .createBoardButton {
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
   border: none;
   padding: 12px 20px;
@@ -95,7 +95,7 @@
 }
 
 .createBoardButton:hover {
-  background-color: #0056b3;
+  background-color: #28a7467a;
 }
 
 .categoryButton {
@@ -108,7 +108,7 @@
 }
 
 .categoryButton.active {
-  background-color: #007bff;
+  background-color: #28a745;
 }
 
 .categoryButton:not(.active) {
@@ -120,7 +120,7 @@
 }
 
 .backButton {
-  background-color: #6c757d;
+  background-color: #28a745;
   color: white;
   border: none;
   padding: 10px 16px;

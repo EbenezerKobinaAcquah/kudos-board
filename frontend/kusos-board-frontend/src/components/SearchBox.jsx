@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./SearchBox.css";
+import "./Button.css"
 
 export default function SearchBox({ onSearch, onClear }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,7 +11,6 @@ export default function SearchBox({ onSearch, onClear }) {
 
   const handleSearch = () => {
     onSearch(searchTerm);
-    console.log(searchTerm)
   };
 
   const handleClear = () => {
@@ -35,8 +35,8 @@ export default function SearchBox({ onSearch, onClear }) {
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
         />
-        <button onClick={handleSearch}>Search</button>
-        <button onClick={handleClear}>Clear</button>
+        <button className="button greenButton" onClick={handleSearch}>Search</button>
+        <button className="button deleteButton" onClick={handleClear}>Clear</button>
       </div>
     </>
   );
