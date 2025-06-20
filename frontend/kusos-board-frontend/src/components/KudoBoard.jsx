@@ -409,6 +409,12 @@ export default function KudoBoard() {
                   👍 Upvotes: {card.upvotes}
                 </button>
                 <button
+                  onClick={() => handleToggleComments(card.id)}
+                  className="button commentsButton"
+                >
+                  💬 {showComments[card.id] ? 'Hide' : 'Show'} Comments ({cardComments[card.id]?.length || 0})
+                </button>
+                <button
                   onClick={() => {
                     const confirmDelete = window.confirm(
                       "Are you sure you want to delete this card? This action cannot be undone."
@@ -422,6 +428,55 @@ export default function KudoBoard() {
                   🗑️ Delete Card
                 </button>
               </div>
+              {/* Comments Section */}
+              {showComments[card.id] && (
+                <div className="commentsSection">
+                  {/* Add Comment Form */}
+                  <div className="addCommentForm">
+                    <h4>Add a Comment</h4>
+                    <textarea
+                      placeholder="Enter your comment message..."
+                      value={newComment[card.id]?.message || ''}
+                      onChange={(e) => handleCommentInputChange(card.id, 'message', e.target.value)}
+                      className="commentTextarea"
+                      rows="3"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Your name (optional)"
+                      value={newComment[card.id]?.author || ''}
+                      onChange={(e) => handleCommentInputChange(card.id, 'author', e.target.value)}
+                      className="commentAuthorInput"
+                    />
+                    <button
+                      onClick={() => handleCreateComment(card.id)}
+                      className="button addCommentButton"
+                    >
+                      Add Comment
+                    </button>
+                  </div>
+
+                  {/* Display Comments */}
+                  <div className="commentsList">
+                    <h4>Comments</h4>
+                    {cardComments[card.id]?.length > 0 ? (
+                      cardComments[card.id].map((comment, commentIndex) => (
+                        <div key={commentIndex} className="commentItem">
+                          <div className="commentHeader">
+                            <strong>{comment.author || 'Anonymous'}</strong>
+                            <span className="commentDate">
+                              {new Date(comment.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <p className="commentMessage">{comment.message}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="noComments">No comments yet. Be the first to comment!</p>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           ))
         ) : (
