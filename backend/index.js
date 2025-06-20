@@ -3,6 +3,7 @@ import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import boardRoutes from "./boardRoutes/boardRoutes.js"
 import dotenv from 'dotenv';
+import cardRoutes from "./cardRoutes/cardRoutes.js"
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(boardRoutes);
+app.use(cardRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
