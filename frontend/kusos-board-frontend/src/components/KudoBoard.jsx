@@ -234,25 +234,25 @@ export default function KudoBoard() {
   const fetchComments = async (cardId) => {
     try {
       const response = await fetch(
+        `http://localhost:5000/api/board/card/comments/${cardId}`
       );
       if (response.ok) {
         const comments = await response.json();
-        setCardComments(prev => ({
+        setCardComments((prev) => ({
           ...prev,
-          [cardId]: comments
+          [cardId]: comments,
         }));
       }
     } catch (error) {
-      console.error("Failed to fetch comments:", error);
     }
   };
 
   const handleToggleComments = async (cardId) => {
     const isCurrentlyShowing = showComments[cardId];
 
-    setShowComments(prev => ({
+    setShowComments((prev) => ({
       ...prev,
-      [cardId]: !isCurrentlyShowing
+      [cardId]: !isCurrentlyShowing,
     }));
 
     // Fetch comments if we're showing them and haven't fetched them yet
@@ -270,6 +270,7 @@ export default function KudoBoard() {
 
     try {
       const response = await fetch(
+        "http://localhost:5000/api/board/card/comment/create",
         {
           method: "POST",
           headers: {
@@ -286,14 +287,14 @@ export default function KudoBoard() {
       if (response.ok) {
         const newCommentData = await response.json();
         // Add the new comment to the existing comments
-        setCardComments(prev => ({
+        setCardComments((prev) => ({
           ...prev,
-          [cardId]: [newCommentData, ...(prev[cardId] || [])]
+          [cardId]: [newCommentData, ...(prev[cardId] || [])],
         }));
         // Clear the form
-        setNewComment(prev => ({
+        setNewComment((prev) => ({
           ...prev,
-          [cardId]: { message: "", author: "" }
+          [cardId]: { message: "", author: "" },
         }));
       } else {
         const errorData = await response.json();
@@ -305,12 +306,12 @@ export default function KudoBoard() {
   };
 
   const handleCommentInputChange = (cardId, field, value) => {
-    setNewComment(prev => ({
+    setNewComment((prev) => ({
       ...prev,
       [cardId]: {
         ...prev[cardId],
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   };
 
@@ -412,7 +413,8 @@ export default function KudoBoard() {
                   onClick={() => handleToggleComments(card.id)}
                   className="button commentsButton"
                 >
-                  💬 {showComments[card.id] ? 'Hide' : 'Show'} Comments ({cardComments[card.id]?.length || 0})
+                  💬 {showComments[card.id] ? "Hide" : "Show"} Comments (
+                  {cardComments[card.id]?.length || 0})
                 </button>
                 <button
                   onClick={() => {
@@ -436,16 +438,28 @@ export default function KudoBoard() {
                     <h4>Add a Comment</h4>
                     <textarea
                       placeholder="Enter your comment message..."
-                      value={newComment[card.id]?.message || ''}
-                      onChange={(e) => handleCommentInputChange(card.id, 'message', e.target.value)}
+                      value={newComment[card.id]?.message || ""}
+                      onChange={(e) =>
+                        handleCommentInputChange(
+                          card.id,
+                          "message",
+                          e.target.value
+                        )
+                      }
                       className="commentTextarea"
                       rows="3"
                     />
                     <input
                       type="text"
                       placeholder="Your name (optional)"
-                      value={newComment[card.id]?.author || ''}
-                      onChange={(e) => handleCommentInputChange(card.id, 'author', e.target.value)}
+                      value={newComment[card.id]?.author || ""}
+                      onChange={(e) =>
+                        handleCommentInputChange(
+                          card.id,
+                          "author",
+                          e.target.value
+                        )
+                      }
                       className="commentAuthorInput"
                     />
                     <button
@@ -463,16 +477,16 @@ export default function KudoBoard() {
                       cardComments[card.id].map((comment, commentIndex) => (
                         <div key={commentIndex} className="commentItem">
                           <div className="commentHeader">
-                            <strong>{comment.author || 'Anonymous'}</strong>
-                            <span className="commentDate">
-                              {new Date(comment.createdAt).toLocaleDateString()}
-                            </span>
+                            <strong>{comment.author || "Anonymous"}</strong>
+
                           </div>
                           <p className="commentMessage">{comment.message}</p>
                         </div>
                       ))
                     ) : (
-                      <p className="noComments">No comments yet. Be the first to comment!</p>
+                      <p className="noComments">
+                        No comments yet. Be the first to comment!
+                      </p>
                     )}
                   </div>
                 </div>

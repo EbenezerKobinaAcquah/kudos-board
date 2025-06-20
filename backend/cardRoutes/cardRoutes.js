@@ -62,33 +62,44 @@ router.delete("/api/board/card/delete", async (req, res) => {
 
 // create a comment for a card
 router.post("/api/board/card/comment/create", async (req, res) => {
-  const { message, author, cardId } = req.body;
-  const comment = await prisma.comment.create({
-    data: {
-      message: message,
-      author: author,
-      card: {
-        connect: {
-          id: cardId,
+  try {
+    const { message, author, cardId } = req.body;
+
+    const comment = await prisma.comment.create({
+      data: {
+        message: message,
+        author: author,
+        card: {
+          connect: {
+            id: cardId,
+          },
         },
       },
-    },
-  });
-  res.json(comment);
+    });
+    res.json(comment);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 // get comments for a card
 router.get("/api/board/card/comments/:cardId", async (req, res) => {
-  const cardId = parseInt(req.params.cardId);
-  const comments = await prisma.comment.findMany({
-    where: {
-      cardId: cardId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-  res.json(comments);
+  try {
+    const cardId = parseInt(req.params.cardId);
+    console.log("Fetching comments for cardId:", cardId);
+
+    const comments = await prisma.comment.findMany({
+      where: {
+        cardId: cardId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    res.json(comments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 export default router;
