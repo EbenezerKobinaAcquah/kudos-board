@@ -1,0 +1,313 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 8px;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modalContent.gifModal {
+  max-width: 700px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.modalClose {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.modalClose:hover {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.modalForm {
+  padding: 24px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
+
+.btnCancel,
+.btnSubmit {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btnCancel {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btnCancel:hover {
+  background-color: #5a6268;
+}
+
+.btnSubmit {
+  background-color: #007bff;
+  color: white;
+}
+
+.btnSubmit:hover {
+  background-color: #0056b3;
+}
+
+.btnSubmit:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* GIF Search Styles */
+.gifInputToggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.toggleBtn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background-color: #f8f9fa;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.toggleBtn:hover {
+  background-color: #e9ecef;
+}
+
+.toggleBtn.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.gifSearchContainer {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.gifSearchInput {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.gifSearchBtn {
+  padding: 10px 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.gifSearchBtn:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.gifSearchBtn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.selectedGif {
+  margin: 16px 0;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.selectedGif p {
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.selectedGifPreview {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 4px;
+}
+
+.gifResults {
+  margin-top: 16px;
+}
+
+.gifResults p {
+  margin: 0 0 12px 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.gifGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.gifItem {
+  cursor: pointer;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.gifItem:hover {
+  transform: scale(1.05);
+  border-color: #007bff;
+}
+
+.gifItem.selected {
+  border-color: #28a745;
+  transform: scale(1.05);
+}
+
+.gifItem img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .modalContent {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .modalContent.gifModal {
+    max-width: 95%;
+  }
+
+  .modalHeader,
+  .modalForm {
+    padding: 16px;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .btnCancel,
+  .btnSubmit {
+    width: 100%;
+  }
+
+  .gifInputToggle {
+    flex-direction: column;
+  }
+
+  .gifSearchContainer {
+    flex-direction: column;
+  }
+
+  .gifGrid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    max-height: 250px;
+  }
+}
