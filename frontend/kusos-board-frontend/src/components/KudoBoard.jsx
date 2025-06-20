@@ -14,6 +14,9 @@ export default function KudoBoard() {
   const [currentBoardId, setCurrentBoardId] = useState(null);
   const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
+  const [cardComments, setCardComments] = useState({});
+  const [showComments, setShowComments] = useState({});
+  const [newComment, setNewComment] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -226,6 +229,89 @@ export default function KudoBoard() {
     } catch (error) {
       alert("Failed to delete card. Please try again.");
     }
+  };
+
+  const fetchComments = async (cardId) => {
+    try {
+      const response = await fetch(
+      );
+      if (response.ok) {
+        const comments = await response.json();
+        setCardComments(prev => ({
+          ...prev,
+          [cardId]: comments
+        }));
+      }
+    } catch (error) {
+      console.error("Failed to fetch comments:", error);
+    }
+  };
+
+  const handleToggleComments = async (cardId) => {
+    const isCurrentlyShowing = showComments[cardId];
+
+    setShowComments(prev => ({
+      ...prev,
+      [cardId]: !isCurrentlyShowing
+    }));
+
+    // Fetch comments if we're showing them and haven't fetched them yet
+    if (!isCurrentlyShowing && !cardComments[cardId]) {
+      await fetchComments(cardId);
+    }
+  };
+
+  const handleCreateComment = async (cardId) => {
+    const commentData = newComment[cardId];
+    if (!commentData?.message?.trim()) {
+      alert("Please enter a comment message");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: commentData.message,
+            author: commentData.author || null,
+            cardId: cardId,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const newCommentData = await response.json();
+        // Add the new comment to the existing comments
+        setCardComments(prev => ({
+          ...prev,
+          [cardId]: [newCommentData, ...(prev[cardId] || [])]
+        }));
+        // Clear the form
+        setNewComment(prev => ({
+          ...prev,
+          [cardId]: { message: "", author: "" }
+        }));
+      } else {
+        const errorData = await response.json();
+        alert("Failed to create comment: " + errorData.error);
+      }
+    } catch (error) {
+      alert("Failed to create comment. Please try again.");
+    }
+  };
+
+  const handleCommentInputChange = (cardId, field, value) => {
+    setNewComment(prev => ({
+      ...prev,
+      [cardId]: {
+        ...prev[cardId],
+        [field]: value
+      }
+    }));
   };
 
   return (
