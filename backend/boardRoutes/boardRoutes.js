@@ -98,12 +98,17 @@ router.get("/api/board/view/:id", async (req, res) => {
 });
 
 router.get("/api/board/all", async (req, res) => {
-  const boards = await prisma.board.findMany({
-    include: {
-      card: true,
-    },
-  });
-  res.json(boards);
+  try {
+    const boards = await prisma.board.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    res.json(boards);
+  } catch (error) {
+    console.error("Error fetching boards:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 export default router;
