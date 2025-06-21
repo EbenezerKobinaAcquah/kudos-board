@@ -2,9 +2,9 @@
 
 ## Unit Assignment: Kudos Board
 
-Submitted by: **NAME**
+Submitted by: **Ebenezer Kobina Acquah**
 
-Deployed Application (**required**): [Kudos Board Deployed Site](ADD_LINK_HERE)
+https://kudos-board-2-kpro.onrender.com/
 
 ### Application Features
 
