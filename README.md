@@ -1,4 +1,4 @@
-📝 `NOTE` Use this template to initialize the contents of a README.md file for your application. As you work on your assignment over the course of the week, update the required or stretch features lists to indicate which features you have completed by changing `[ ]` to `[x]`. (🚫 Remove this paragraph before submitting your assignment.)
+Kudos Board is a collaborative platform where teams can create boards and add personalized kudos cards to recognize contributions and celebrate milestones. The app features a responsive interface, allowing users to easily search, view, pin, upvote, and delete boards and cards—all in real-time. 🚀
 
 ## Unit Assignment: Kudos Board
 
