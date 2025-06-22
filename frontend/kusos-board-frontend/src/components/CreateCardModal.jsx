@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import "./Modal.css";
 
+// GIF Categories Constants
+const GIF_CATEGORIES = {
+  CELEBRATION: "Celebration",
+  THANK_YOU: "Thank You",
+  INSPIRATION: "Inspiration",
+};
+
 export default function CreateCardModal({ isOpen, onClose, onSubmit }) {
   const [formData, setFormData] = useState({
     title: "",
@@ -14,13 +21,12 @@ export default function CreateCardModal({ isOpen, onClose, onSubmit }) {
   const [showGifSearch, setShowGifSearch] = useState(true);
   const [selectedGif, setSelectedGif] = useState(null);
 
-  // Giphy API key (you should use environment variable in production)
-  const GIPHY_API_KEY = "GlVGYHkr3WSBnllca54iNt0yFbjz7L65"; // Public demo key
+  const GIPHY_API_KEY = import.meta.env.VITE_GIPHY_API_KEY;
 
-  const handleChange = (e) => {
+  const handleChange = (form) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [form.target.name]: e.target.value,
     });
   };
 
@@ -51,8 +57,8 @@ export default function CreateCardModal({ isOpen, onClose, onSubmit }) {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (submit) => {
+    submit.preventDefault();
     if (formData.title && formData.description && formData.gifUrl) {
       onSubmit(formData);
       handleClose();
@@ -68,8 +74,8 @@ export default function CreateCardModal({ isOpen, onClose, onSubmit }) {
     onClose();
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+  const handleKeyDown = (enter) => {
+    if (enter.key === "Enter") {
       e.preventDefault();
       searchGifs();
     }
@@ -138,6 +144,45 @@ export default function CreateCardModal({ isOpen, onClose, onSubmit }) {
             {showGifSearch ? (
               <>
                 <label>Search for GIFs *</label>
+                <div className="gifCategoriesContainer">
+                  <p>Quick Categories:</p>
+                  <div className="categoryButtons">
+                    {Object.values(GIF_CATEGORIES).map((category) => (
+                      <button
+                        key={category}
+                        type="button"
+                        onClick={() => {
+                          setGifSearch(category);
+                          // Auto-search when category is selected
+                          setTimeout(() => {
+                            const searchWithCategory = async () => {
+                              setIsSearching(true);
+                              try {
+                                const response = await fetch(
+                                  `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(
+                                    category
+                                  )}&limit=12&rating=g`
+                                );
+                                const data = await response.json();
+                                setGifResults(data.data || []);
+                              } catch (error) {
+                                alert(
+                                  "Failed to search GIFs. Please try again."
+                                );
+                              } finally {
+                                setIsSearching(false);
+                              }
+                            };
+                            searchWithCategory();
+                          }, 100);
+                        }}
+                        className="categoryBtn"
+                      >
+                        {category}
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <div className="gifSearchContainer">
                   <input
                     type="text"

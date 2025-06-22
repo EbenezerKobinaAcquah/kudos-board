@@ -1,34 +1,46 @@
 import React, { useState } from "react";
+import {
+  SELECTABLE_BOARD_CATEGORIES,
+  getSelectableCategories,
+} from "../constants/sortingEnums";
 import "./Modal.css";
 
 export default function CreateBoardModal({ isOpen, onClose, onSubmit }) {
   const [formData, setFormData] = useState({
     title: "",
-    category: "Celebration",
+    category: SELECTABLE_BOARD_CATEGORIES.CELEBRATION,
     author: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (form) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [form.target.name]: form.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (submit) => {
+    submit.preventDefault();
     if (formData.title && formData.category) {
       onSubmit({
         ...formData,
         author: formData.author || "Anonymous",
       });
-      setFormData({ title: "", category: "Celebration", author: "" });
+      setFormData({
+        title: "",
+        category: SELECTABLE_BOARD_CATEGORIES.CELEBRATION,
+        author: "",
+      });
       onClose();
     }
   };
 
   const handleClose = () => {
-    setFormData({ title: "", category: "Celebration", author: "" });
+    setFormData({
+      title: "",
+      category: SELECTABLE_BOARD_CATEGORIES.CELEBRATION,
+      author: "",
+    });
     onClose();
   };
 
@@ -67,9 +79,11 @@ export default function CreateBoardModal({ isOpen, onClose, onSubmit }) {
               onChange={handleChange}
               required
             >
-              <option value="Celebration">Celebration</option>
-              <option value="Thank You">Thank You</option>
-              <option value="Inspiration">Inspiration</option>
+              {getSelectableCategories().map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
             </select>
           </div>
 

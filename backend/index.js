@@ -1,6 +1,5 @@
 import express, { urlencoded } from 'express';
 import cors from 'cors';
-import { PrismaClient } from '@prisma/client';
 import boardRoutes from "./boardRoutes/boardRoutes.js"
 import dotenv from 'dotenv';
 import cardRoutes from "./cardRoutes/cardRoutes.js"
@@ -15,7 +14,7 @@ app.use(express.json());
 app.use(urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello World! Welcome to my Kudo board application. Navigate to "/api/board/all" to start kudoing!!');
 });
 
 app.use(boardRoutes);
@@ -24,4 +23,3 @@ app.use(cardRoutes)
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-

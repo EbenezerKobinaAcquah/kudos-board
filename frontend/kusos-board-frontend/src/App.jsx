@@ -1,14 +1,10 @@
 import { useState } from "react";
 import Header from "./components/Header";
-import SearchBox from "./components/SearchBox";
-import Button from "./components/ViewBoardButton";
 import "./App.css";
-import KudoBoardCard from "./components/KudoBoardCard";
 import Footer from "./components/Footer";
 import KudoBoard from "./components/KudoBoard";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [mode, setMode] = useState(true);
 
   function handleToggleMode() {
@@ -22,12 +18,11 @@ function App() {
     <>
       <div className={bodyMode}>
         <div className="mode">
-          <Header
-          />
+          <Header />
           <div className="modeButton">
-          <button onClick={handleToggleMode}>
-            {mode ? "Dark Mode 🌚" : "Light Mode 🌞"}
-          </button>
+            <button onClick={handleToggleMode}>
+              {mode ? "Dark Mode 🌚" : "Light Mode 🌞"}
+            </button>
           </div>
           <KudoBoard />
           <Footer />
