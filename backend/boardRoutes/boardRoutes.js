@@ -6,10 +6,6 @@ express().use(json());
 const prisma = new PrismaClient();
 const router = Router();
 
-
-
-
-
 // create a new board
 router.post(
   "/api/board/create",
@@ -24,7 +20,10 @@ router.post(
         category: category,
         author: author ? author : "Anonymous",
         // Using title as seed
-image: `https://picsum.photos/200/300?random=${title.replace(/\s+/g, '')}`,
+        image: `https://picsum.photos/200/300?random=${title.replace(
+          /\s+/g,
+          ""
+        )}`,
       },
     });
     res.status(200).json({ board });
@@ -35,11 +34,9 @@ image: `https://picsum.photos/200/300?random=${title.replace(/\s+/g, '')}`,
 router.delete("/api/board/delete/:id", async (req, res) => {
   const { id } = req.params;
   const boardId = parseInt(id);
-
   if (isNaN(boardId)) {
     return res.status(400).json({ error: "Invalid board ID" });
   }
-
   try {
     // First delete all cards associated with the board
     await prisma.card.deleteMany({
@@ -47,14 +44,12 @@ router.delete("/api/board/delete/:id", async (req, res) => {
         boardId: boardId,
       },
     });
-
     // Then delete the board
     const deleteBoard = await prisma.board.delete({
       where: {
         id: boardId,
       },
     });
-
     res
       .status(200)
       .json({ message: "Board deleted successfully", deleteBoard });
@@ -89,26 +84,20 @@ router.get("/api/board/view/:id", async (req, res) => {
     if (!board) {
       return res.status(404).json({ error: "Board not found" });
     }
-
     res.json(board.card);
   } catch (error) {
-    console.error("Error fetching board cards:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
+//view all boards
 router.get("/api/board/all", async (req, res) => {
-  try {
-    const boards = await prisma.board.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-    res.json(boards);
-  } catch (error) {
-    console.error("Error fetching boards:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
+  const boards = await prisma.board.findMany({
+    include: {
+      card: true,
+    },
+  });
+  res.json(boards);
 });
 
 export default router;

@@ -5,8 +5,8 @@ import "./Button.css"
 export default function SearchBox({ onSearch, onClear }) {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
+  const handleInputChange = (textBoxText) => {
+    setSearchTerm(textBoxText.target.value);
   };
 
   const handleSearch = () => {
@@ -18,8 +18,8 @@ export default function SearchBox({ onSearch, onClear }) {
     onClear();
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+  const handleKeyDown = (enter) => {
+    if (enter.key === "Enter") {
       handleSearch();
     }
   };

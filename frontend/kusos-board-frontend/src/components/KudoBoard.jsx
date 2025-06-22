@@ -4,13 +4,18 @@ import SearchBox from "./SearchBox";
 import CreateBoardModal from "./CreateBoardModal";
 import CreateCardModal from "./CreateCardModal";
 import "./Kudoboard.css";
+import {
+  BOARD_CATEGORIES,
+  getAllCategories,
+  sortBoardsByRecent,
+} from "../constants/sortingEnums";
 
 export default function KudoBoard() {
   const [kudoBoard, setKudoBoard] = useState([]);
   const [filteredBoards, setFilteredBoards] = useState([]);
   const [showCards, setShowCards] = useState(false);
   const [selectedBoardCards, setSelectedBoardCards] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState(BOARD_CATEGORIES.ALL);
   const [currentBoardId, setCurrentBoardId] = useState(null);
   const [showCreateBoardModal, setShowCreateBoardModal] = useState(false);
   const [showCreateCardModal, setShowCreateCardModal] = useState(false);
@@ -26,7 +31,7 @@ export default function KudoBoard() {
         setKudoBoard(data);
         setFilteredBoards(data);
       } catch (error) {
-        // Error fetching data
+        alert("Failed to fetch all boards")
       }
     };
     fetchData();
@@ -37,12 +42,12 @@ export default function KudoBoard() {
   }, [selectedCategory, kudoBoard]);
 
   const filterBoardsByCategory = () => {
-    if (selectedCategory === "All") {
+    if (selectedCategory === BOARD_CATEGORIES.ALL) {
       setFilteredBoards(kudoBoard);
-    } else if (selectedCategory === "Recent") {
+    } else if (selectedCategory === BOARD_CATEGORIES.RECENT) {
       // Sort by creation date (assuming newer IDs are more recent)
-      const sortedBoards = [...kudoBoard].sort((a, b) => b.id - a.id);
-      setFilteredBoards(sortedBoards.slice(0, 10)); // Show 10 most recent
+      const sortedBoards = sortBoardsByRecent(kudoBoard);
+      setFilteredBoards(sortedBoards.slice(0, 6)); // Show 6 most recent
     } else {
       const filtered = kudoBoard.filter(
         (board) =>
@@ -98,7 +103,6 @@ export default function KudoBoard() {
         if (response.ok) {
           const newCard = await response.json();
           setSelectedBoardCards([...selectedBoardCards, newCard]);
-          alert("Card created successfully!");
         } else {
           const errorData = await response.json();
           alert("Failed to create card: " + errorData.error);
@@ -137,7 +141,7 @@ export default function KudoBoard() {
       setCurrentBoardId(boardId);
       setShowCards(true);
     } catch (error) {
-      // Error fetching cards
+      alert("Failed to fetch card")
     }
   };
 
@@ -243,7 +247,9 @@ export default function KudoBoard() {
           [cardId]: comments,
         }));
       }
-    } catch (error) {}
+    } catch (error) {
+        alert("Failed to fetch comment")
+    }
   };
 
   const handleToggleComments = async (cardId) => {
@@ -333,19 +339,17 @@ export default function KudoBoard() {
 
           {/* Category Filter Buttons */}
           <div className="kudosThemes">
-            {["All", "Recent", "Celebration", "Thank You", "Inspiration"].map(
-              (category) => (
-                <button
-                  key={category}
-                  onClick={() => handleCategoryFilter(category)}
-                  className={`button categoryButton ${
-                    selectedCategory === category ? "active" : ""
-                  }`}
-                >
-                  {category}
-                </button>
-              )
-            )}
+            {getAllCategories().map((category) => (
+              <button
+                key={category}
+                onClick={() => handleCategoryFilter(category)}
+                className={`button categoryButton ${
+                  selectedCategory === category ? "active" : ""
+                }`}
+              >
+                {category}
+              </button>
+            ))}
           </div>
         </>
       )}
@@ -438,11 +442,11 @@ export default function KudoBoard() {
                     <textarea
                       placeholder="Enter your comment message..."
                       value={newComment[card.id]?.message || ""}
-                      onChange={(e) =>
+                      onChange={(comment) =>
                         handleCommentInputChange(
                           card.id,
                           "message",
-                          e.target.value
+                          comment.target.value
                         )
                       }
                       className="commentTextarea"
@@ -452,11 +456,11 @@ export default function KudoBoard() {
                       type="text"
                       placeholder="Your name (optional)"
                       value={newComment[card.id]?.author || ""}
-                      onChange={(e) =>
+                      onChange={(author) =>
                         handleCommentInputChange(
                           card.id,
                           "author",
-                          e.target.value
+                          author.target.value
                         )
                       }
                       className="commentAuthorInput"

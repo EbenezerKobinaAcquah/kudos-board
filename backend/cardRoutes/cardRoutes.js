@@ -26,7 +26,6 @@ router.post("/api/board/card/create", async (req, res) => {
 // upvote a card
 router.patch("/api/board/card/upvote", async (req, res) => {
   const { id } = req.body;
-  console.log(id);
   const card = await prisma.card.findFirst({
     where: {
       id: id,
@@ -47,7 +46,6 @@ router.patch("/api/board/card/upvote", async (req, res) => {
 });
 
 //delete a card
-
 router.delete("/api/board/card/delete", async (req, res) => {
   const {
     body: { id },
@@ -86,8 +84,6 @@ router.post("/api/board/card/comment/create", async (req, res) => {
 router.get("/api/board/card/comments/:cardId", async (req, res) => {
   try {
     const cardId = parseInt(req.params.cardId);
-    console.log("Fetching comments for cardId:", cardId);
-
     const comments = await prisma.comment.findMany({
       where: {
         cardId: cardId,
