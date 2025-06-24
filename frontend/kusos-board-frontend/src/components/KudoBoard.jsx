@@ -10,6 +10,7 @@ import {
   sortBoardsByRecent,
 } from "../constants/sortingEnums";
 
+
 export default function KudoBoard() {
   const [kudoBoard, setKudoBoard] = useState([]);
   const [filteredBoards, setFilteredBoards] = useState([]);
@@ -26,7 +27,7 @@ export default function KudoBoard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/board/all");
+        const response = await fetch("https://kudos-board-8wj6.onrender.com/api/board/all");
         const data = await response.json();
         setKudoBoard(data);
         setFilteredBoards(data);

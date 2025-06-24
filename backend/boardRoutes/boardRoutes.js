@@ -54,7 +54,7 @@ router.delete("/api/board/delete/:id", async (req, res) => {
       .status(200)
       .json({ message: "Board deleted successfully", deleteBoard });
   } catch (error) {
-    console.error("Error deleting board:", error);
+    alert(error);
     if (error.code === "P2025") {
       return res.status(404).json({ error: "Board not found" });
     }
