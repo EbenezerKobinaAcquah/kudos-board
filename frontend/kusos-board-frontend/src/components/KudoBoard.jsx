@@ -10,6 +10,7 @@ import {
   sortBoardsByRecent,
 } from "../constants/sortingEnums";
 
+
 export default function KudoBoard() {
   const [kudoBoard, setKudoBoard] = useState([]);
   const [filteredBoards, setFilteredBoards] = useState([]);
@@ -26,7 +27,7 @@ export default function KudoBoard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/board/all");
+        const response = await fetch("https://kudos-board-8wj6.onrender.com/api/board/all");
         const data = await response.json();
         setKudoBoard(data);
         setFilteredBoards(data);
@@ -63,7 +64,7 @@ export default function KudoBoard() {
 
   const handleCreateBoard = async (formData) => {
     try {
-      const response = await fetch("http://localhost:5000/api/board/create", {
+      const response = await fetch("https://kudos-board-8wj6.onrender.com/api/board/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +88,7 @@ export default function KudoBoard() {
     if (currentBoardId) {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/board/card/create",
+          "https://kudos-board-8wj6.onrender.com/api/board/card/create",
           {
             method: "POST",
             headers: {
@@ -134,7 +135,7 @@ export default function KudoBoard() {
   const handleBoardClick = async (boardId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/board/view/${boardId}`
+        `https://kudos-board-8wj6.onrender.com/api/board/view/${boardId}`
       );
       const data = await response.json();
       setSelectedBoardCards(data);
@@ -148,7 +149,7 @@ export default function KudoBoard() {
   const handleDeleteBoard = async (boardId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/board/delete/${boardId}`,
+        `hhttps://kudos-board-8wj6.onrender.com/board/delete/${boardId}`,
         {
           method: "DELETE",
         }
@@ -179,7 +180,7 @@ export default function KudoBoard() {
   const handleUpvoteCard = async (cardId) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/board/card/upvote",
+        "https://kudos-board-8wj6.onrender.com/api/board/card/upvote",
         {
           method: "PATCH",
           headers: {
@@ -211,7 +212,7 @@ export default function KudoBoard() {
   const handleDeleteCard = async (cardId) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/board/card/delete",
+        "https://kudos-board-8wj6.onrender.com/api/board/card/delete",
         {
           method: "DELETE",
           headers: {
@@ -238,7 +239,7 @@ export default function KudoBoard() {
   const fetchComments = async (cardId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/board/card/comments/${cardId}`
+        `https://kudos-board-8wj6.onrender.com/board/card/comments/${cardId}`
       );
       if (response.ok) {
         const comments = await response.json();
@@ -275,7 +276,7 @@ export default function KudoBoard() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/board/card/comment/create",
+        "https://kudos-board-8wj6.onrender.com/api/board/card/comment/create",
         {
           method: "POST",
           headers: {
