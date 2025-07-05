@@ -3,6 +3,7 @@ export default function Footer() {
         <>
         <div className="footer">
             <p>❤️ Copyright 2025 Ebenezer</p>
+            <p>Created by me</p>
 </div>
         </>
     )
